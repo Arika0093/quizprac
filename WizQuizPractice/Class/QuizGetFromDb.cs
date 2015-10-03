@@ -65,8 +65,10 @@ namespace WizQuizPractice.Class
 				q.Answer = Artc.SelectSingleNode("descendant::td[4]/p").InnerText.Trim();
 				// selections
 				var Selections
-					= Artc.SelectSingleNode("descendant::td[3]/p/a").Attributes["title"].Value
-					  .Substring(4).Split(new char[] { '【', '】', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+					= (from s in Artc.SelectSingleNode("descendant::td[3]/p/a").Attributes["title"].Value
+					  .Substring(4).Split(new char[] { '【', '】'}, StringSplitOptions.RemoveEmptyEntries)
+					  where s.Replace(" ", "").Length > 0
+					  select s).ToArray();
 				q.Selection1 = Selections[0];
 				q.Selection2 = Selections[1];
 				q.Selection3 = Selections[2];
