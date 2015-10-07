@@ -73,6 +73,12 @@
     <Compile Include="UI\QuizDownload.Designer.cs">
       <DependentUpon>QuizDownload.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\QuizResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\QuizResult.Designer.cs">
+      <DependentUpon>QuizResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\QuizSearch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,12 @@
     </Compile>
     <EmbeddedResource Include="UI\QuizDownload.resx">
       <DependentUpon>QuizDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\QuizResult.resx">
+      <DependentUpon>QuizResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\QuizSearch.resx">
+      <DependentUpon>QuizSearch.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

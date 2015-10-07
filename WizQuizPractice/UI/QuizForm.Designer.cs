@@ -39,8 +39,6 @@
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.問題検索ダイアログを開くDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ヘルプHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.設定SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.このアプリについてAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.Status_LoadQst = new System.Windows.Forms.ToolStripStatusLabel();
@@ -52,6 +50,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.selfDrawProgressBar1 = new WizQuizPractice.UI.SelfDrawProgressBar();
+			this.問題帳から練習を開始BToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -110,6 +109,7 @@
 			// 
 			this.検索SToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.練習モードを開始SToolStripMenuItem,
+            this.問題帳から練習を開始BToolStripMenuItem,
             this.練習モードを終了EToolStripMenuItem,
             this.toolStripSeparator3,
             this.問題検索ダイアログを開くDToolStripMenuItem});
@@ -142,27 +142,15 @@
 			this.問題検索ダイアログを開くDToolStripMenuItem.Name = "問題検索ダイアログを開くDToolStripMenuItem";
 			this.問題検索ダイアログを開くDToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
 			this.問題検索ダイアログを開くDToolStripMenuItem.Text = "問題検索ダイアログを開く(&D)...";
+			this.問題検索ダイアログを開くDToolStripMenuItem.Click += new System.EventHandler(this.問題検索ダイアログを開くDToolStripMenuItem_Click);
 			// 
 			// ヘルプHToolStripMenuItem
 			// 
 			this.ヘルプHToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.設定SToolStripMenuItem,
-            this.toolStripSeparator2,
             this.このアプリについてAToolStripMenuItem});
 			this.ヘルプHToolStripMenuItem.Name = "ヘルプHToolStripMenuItem";
-			this.ヘルプHToolStripMenuItem.Size = new System.Drawing.Size(62, 22);
-			this.ヘルプHToolStripMenuItem.Text = "設定(&S)";
-			// 
-			// 設定SToolStripMenuItem
-			// 
-			this.設定SToolStripMenuItem.Name = "設定SToolStripMenuItem";
-			this.設定SToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-			this.設定SToolStripMenuItem.Text = "設定(&S)...";
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(211, 6);
+			this.ヘルプHToolStripMenuItem.Size = new System.Drawing.Size(75, 22);
+			this.ヘルプHToolStripMenuItem.Text = "ヘルプ(&H)";
 			// 
 			// このアプリについてAToolStripMenuItem
 			// 
@@ -293,6 +281,12 @@
 			this.selfDrawProgressBar1.TabIndex = 9;
 			this.selfDrawProgressBar1.Value = 2000;
 			// 
+			// 問題帳から練習を開始BToolStripMenuItem
+			// 
+			this.問題帳から練習を開始BToolStripMenuItem.Name = "問題帳から練習を開始BToolStripMenuItem";
+			this.問題帳から練習を開始BToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.問題帳から練習を開始BToolStripMenuItem.Text = "問題帳から練習を開始(&B)...";
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
@@ -334,8 +328,6 @@
 		private System.Windows.Forms.ToolStripMenuItem このアプリについてAToolStripMenuItem;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel Status_LoadQst;
-		private System.Windows.Forms.ToolStripMenuItem 設定SToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem 練習モードを開始SToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 練習モードを終了EToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
@@ -347,6 +339,7 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button button1;
 		private UI.SelfDrawProgressBar selfDrawProgressBar1;
+		private System.Windows.Forms.ToolStripMenuItem 問題帳から練習を開始BToolStripMenuItem;
 	}
 }
 

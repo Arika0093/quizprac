@@ -62,10 +62,10 @@ namespace WizQuizPractice
 			練習モードを開始SToolStripMenuItem.Enabled = false;
 			練習モードを終了EToolStripMenuItem.Enabled = true;
 			tableLayoutPanel1.Enabled = true;
-			
+
 			// Get Quizs at random
 			ShowQuizs = (from q in QuizManage.Quizs
-						 where q.IsEnableSelections == true
+						 where q.IsEnabledSelections == true
 						 orderby Guid.NewGuid()
 						 select q).ToList();
 			// and etc
@@ -92,6 +92,8 @@ namespace WizQuizPractice
 			selfDrawProgressBar1.Value = 2000;
 			// count reset
 			Qcount = 0;
+			// Show Result
+			new QuizResult(Mqa).ShowDialog();
 		}
 
 		// Quiz Show
@@ -218,6 +220,11 @@ namespace WizQuizPractice
 		private void このアプリについてAToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			new About().ShowDialog();
+		}
+
+		private void 問題検索ダイアログを開くDToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			new QuizSearch().Show();
 		}
 	}
 }

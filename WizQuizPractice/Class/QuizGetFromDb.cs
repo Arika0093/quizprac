@@ -56,7 +56,7 @@ namespace WizQuizPractice.Class
 				// Generate Quiz
 				Quiz q = new Quiz();
 				// Genre
-				q.Genre = Artc.SelectSingleNode("descendant::td[1]/p").InnerText.Trim();
+				q.Genre = Artc.SelectSingleNode("descendant::td[1]/p").InnerText.Replace(" ","");
 				// Diff
 				q.Diff = DiffStringToInt(Artc.SelectSingleNode("descendant::td[2]/p").InnerText);
 				// Question
@@ -74,7 +74,7 @@ namespace WizQuizPractice.Class
 				q.Selection3 = Selections[2];
 				q.Selection4 = Selections[3];
 				// IsEnableSelections
-				q.IsEnableSelections = Selections[3].IndexOf("不明") <= -1;
+				q.IsEnabledSelections = Selections[3].IndexOf("不明") <= -1;
 				// Insert
 				Quizs.Add(q);
 			}
