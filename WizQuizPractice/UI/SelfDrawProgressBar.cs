@@ -11,8 +11,6 @@ namespace WizQuizPractice.UI
 {
 	public class SelfDrawProgressBar : ProgressBar
 	{
-		public string MaxTime = "20.00";
-
 		public SelfDrawProgressBar()
         {
             //Paintイベントが発生するようにする
@@ -42,7 +40,10 @@ namespace WizQuizPractice.UI
 
 			// 残り時間を描画する
 			var f = new Font("メイリオ", 8);
-			e.Graphics.DrawString(String.Format("{0} / {1}", ((double)Value/100).ToString("#0.00"), MaxTime),
+			var NwTime = (Value >= 10000 ? "99.99" : ((double)Value / 100).ToString("#0.00"));
+			var MxTime = (Maximum >= 10000 ? "99.99" : ((double)Maximum / 100).ToString("#0.00"));
+
+			e.Graphics.DrawString(String.Format("{0} / {1}", NwTime, MxTime),
 				f, Brushes.White, new Point(ClientSize.Width - 80, 4));
 
             backBrush.Dispose();

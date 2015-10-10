@@ -35,6 +35,8 @@
 			this.終了XToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.検索SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.練習モードを開始SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.表示問題の条件を指定して開始ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.問題帳から練習を開始BToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.練習モードを終了EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.問題検索ダイアログを開くDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +52,6 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.selfDrawProgressBar1 = new WizQuizPractice.UI.SelfDrawProgressBar();
-			this.問題帳から練習を開始BToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -110,6 +111,7 @@
 			this.検索SToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.練習モードを開始SToolStripMenuItem,
             this.問題帳から練習を開始BToolStripMenuItem,
+            this.表示問題の条件を指定して開始ToolStripMenuItem,
             this.練習モードを終了EToolStripMenuItem,
             this.toolStripSeparator3,
             this.問題検索ダイアログを開くDToolStripMenuItem});
@@ -123,6 +125,20 @@
 			this.練習モードを開始SToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
 			this.練習モードを開始SToolStripMenuItem.Text = "練習モードを開始(&S)";
 			this.練習モードを開始SToolStripMenuItem.Click += new System.EventHandler(this.練習モードを開始SToolStripMenuItem_Click);
+			// 
+			// 表示問題の条件を指定して開始ToolStripMenuItem
+			// 
+			this.表示問題の条件を指定して開始ToolStripMenuItem.Name = "表示問題の条件を指定して開始ToolStripMenuItem";
+			this.表示問題の条件を指定して開始ToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.表示問題の条件を指定して開始ToolStripMenuItem.Text = "条件を指定して練習開始(&C)...";
+			this.表示問題の条件を指定して開始ToolStripMenuItem.Click += new System.EventHandler(this.表示問題の条件を指定して開始ToolStripMenuItem_Click);
+			// 
+			// 問題帳から練習を開始BToolStripMenuItem
+			// 
+			this.問題帳から練習を開始BToolStripMenuItem.Name = "問題帳から練習を開始BToolStripMenuItem";
+			this.問題帳から練習を開始BToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.問題帳から練習を開始BToolStripMenuItem.Text = "問題帳から練習を開始(&B)...";
+			this.問題帳から練習を開始BToolStripMenuItem.Click += new System.EventHandler(this.問題帳から練習を開始BToolStripMenuItem_Click);
 			// 
 			// 練習モードを終了EToolStripMenuItem
 			// 
@@ -281,12 +297,6 @@
 			this.selfDrawProgressBar1.TabIndex = 9;
 			this.selfDrawProgressBar1.Value = 2000;
 			// 
-			// 問題帳から練習を開始BToolStripMenuItem
-			// 
-			this.問題帳から練習を開始BToolStripMenuItem.Name = "問題帳から練習を開始BToolStripMenuItem";
-			this.問題帳から練習を開始BToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
-			this.問題帳から練習を開始BToolStripMenuItem.Text = "問題帳から練習を開始(&B)...";
-			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
@@ -301,6 +311,7 @@
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.MaximizeBox = false;
 			this.Name = "Main";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "クイズ練習用ソフト";
 			this.Load += new System.EventHandler(this.Main_Load);
 			this.menuStrip1.ResumeLayout(false);
@@ -340,6 +351,7 @@
 		private System.Windows.Forms.Button button1;
 		private UI.SelfDrawProgressBar selfDrawProgressBar1;
 		private System.Windows.Forms.ToolStripMenuItem 問題帳から練習を開始BToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 表示問題の条件を指定して開始ToolStripMenuItem;
 	}
 }
 

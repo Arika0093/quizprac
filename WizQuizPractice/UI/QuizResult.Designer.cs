@@ -27,6 +27,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.ExcNum = new System.Windows.Forms.Label();
 			this.AnsRate = new System.Windows.Forms.Label();
@@ -67,6 +68,7 @@
 			this.A3 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.AnsTime = new System.Windows.Forms.Label();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -342,6 +344,7 @@
 			this.QuizDetailsCheck.TabIndex = 17;
 			this.QuizDetailsCheck.Text = "出題問題を確認";
 			this.QuizDetailsCheck.UseVisualStyleBackColor = true;
+			this.QuizDetailsCheck.Click += new System.EventHandler(this.QuizDetailsCheck_Click);
 			// 
 			// OK
 			// 
@@ -640,5 +643,6 @@
 		private System.Windows.Forms.Label A1;
 		private System.Windows.Forms.Label A2;
 		private System.Windows.Forms.Label A3;
+		private System.Windows.Forms.ToolTip toolTip1;
 	}
 }

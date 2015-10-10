@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace WizQuizPractice.Class
 {
@@ -26,7 +28,7 @@ namespace WizQuizPractice.Class
 				return 0;
 			}
 			var Qexc = from q in mqa
-					   where q.LimitTime >= 15 && q.IsCorrect
+					   where q.LimitTime >= WQPSetting.ExcellentTime && q.IsCorrect
 					   select q;
 			return Qexc.Count();
 		}
@@ -34,6 +36,13 @@ namespace WizQuizPractice.Class
 		{
 			mqa.Add(mq);
 			return "";
+		}
+		public void XmlLoad(string xmlpath)
+		{
+			XmlSerializer Xs = new XmlSerializer(typeof(List<MyQstAns>));
+			StreamReader Sr = new StreamReader(xmlpath);
+			mqa = (List<MyQstAns>)Xs.Deserialize(Sr);
+			Sr.Close();
 		}
 	}
 
@@ -43,23 +52,5 @@ namespace WizQuizPractice.Class
 		public string SelAns;
 		public double LimitTime;
 		public bool IsCorrect;
-		public string AnsType()
-		{
-			if(LimitTime >= 15) {
-				return "Excellent";
-			}
-			else if(LimitTime >= 10) {
-				return "Great";
-			}
-			else if(LimitTime >= 5) {
-				return "Good";
-			}
-			else if(LimitTime <= 0){
-				return "TimeOver";
-			}
-			else {
-				return "OK";
-			}
-		}
 	}
 }

@@ -38,10 +38,12 @@ namespace WizQuizPractice.UI
 			// Basic
 			TraningRst.Text = "今回の練習結果 (練習問題数: " + Mqa.mqa.Count + "問)";
 			AnsRate.Text = Mqa.GetMyAnsRate() + "%";
+			toolTip1.SetToolTip(AnsRate, String.Format("{1}/{0}問正解", Mqa.mqa.Count, Curs.Count()));
 			if(Curs.Count() > 0) {
-				AnsTime.Text = (20 - Curs.Average()).ToString("#0.00") + "s";
+				AnsTime.Text = (WQPSetting.LimitTime - Curs.Average()).ToString("#0.00") + "s";
 			}
 			ExcNum.Text = Mqa.GetMyExcellentNum() + "問";
+			toolTip1.SetToolTip(ExcNum, String.Format("{1}/{0}問", Mqa.GetMyExcellentNum(), Curs.Count()));
 			// Genre,Diff
 			GenreDiffCorrRateShow(ref B1, "文系", 1);
 			GenreDiffCorrRateShow(ref B2, "文系", 2);
@@ -83,6 +85,7 @@ namespace WizQuizPractice.UI
 				double Rate = (double)Anss.Count() * 100 / Base.Count();
 				// accept
 				l.Text = Rate.ToString(DoublePerFormat) + "%";
+				toolTip1.SetToolTip(l, String.Format("{1}/{0}問正解", Base.Count(), Anss.Count()));
 				RateColorChange(ref l, Rate);
 			}
 			else {
@@ -101,6 +104,11 @@ namespace WizQuizPractice.UI
 			else if(Rate <= 50) {
 				l.ForeColor = Under50Per;
 			}
+		}
+
+		private void QuizDetailsCheck_Click(object sender, EventArgs e)
+		{
+			new QuizDetails(Mqa).ShowDialog();
 		}
 	}
 }

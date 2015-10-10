@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\WQPSetting.cs" />
     <Compile Include="Class\MyQAList.cs" />
     <Compile Include="Class\Quiz.cs" />
     <Compile Include="Class\QuizGetFromDb.cs" />
@@ -58,6 +59,12 @@
     </Compile>
     <Compile Include="UI\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\QuizDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\QuizDetails.Designer.cs">
+      <DependentUpon>QuizDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\QuizForm.cs">
       <SubType>Form</SubType>
@@ -90,6 +97,9 @@
     </Compile>
     <EmbeddedResource Include="UI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\QuizDetails.resx">
+      <DependentUpon>QuizDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\QuizForm.resx">
       <DependentUpon>QuizForm.cs</DependentUpon>

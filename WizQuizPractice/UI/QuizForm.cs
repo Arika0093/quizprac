@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
+using System.IO;
 
 using WizQuizPractice.UI;
 using WizQuizPractice.Class;
@@ -15,12 +18,17 @@ namespace WizQuizPractice
 {
 	public partial class Main : Form
 	{
+		// 表示するクイズを取得してここに入れる
 		private List<Quiz> ShowQuizs;
-		private int Qcount = 0;
+		// 現在の出題問題数
+		private int Qcount;
+		// 回答結果をこの中に入れる
 		private MyQAList Mqa;
+		// 回答を一時的にこの変数に保持する
 		private string QuizAnswer;
+		// クイズの残り時間を管理
 		private System.Threading.Timer QuizTimer;
-		private const int TimerInterval = 6;
+		// -------------------------------
 
 		public Main()
 		{
@@ -29,7 +37,12 @@ namespace WizQuizPractice
 
 		private void Main_Load(object sender, EventArgs e)
 		{
+			// Error Ignore
+			SelfDrawProgressBar.CheckForIllegalCrossThreadCalls = false;
+
+			// Statusbar
 			Status_LoadQst.Text = "読み込んだ問題数: " + QuizManage.Quizs.Count.ToString();
+			// Mainpanel
 			tableLayoutPanel1.Enabled = false;
 		}
 
@@ -44,6 +57,8 @@ namespace WizQuizPractice
 		private void 問題の読み込みOToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.FileName = Path.GetFileName(QuizManage.Quizfilepath);
+			ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			ofd.Filter = "quizfile(*.xml)|*.xml|all files(*.*)|*.*";
 			if(ofd.ShowDialog() == DialogResult.OK) {
 				QuizManage.Quizfilepath = ofd.FileName;
@@ -56,20 +71,49 @@ namespace WizQuizPractice
 		// Start
 		private void 練習モードを開始SToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			// Get Quizs at random
+			ShowQuizs = (from q in QuizManage.Quizs
+						 where q.IsEnabledSelections && q.Genre.IndexOf("イベント")<=-1
+						 orderby Guid.NewGuid()
+						 select q).ToList();
+			// Init
+			StartTraningMode();
+		}
+
+		private void 問題帳から練習を開始BToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// Open QuizFile
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Books\\";
+			ofd.Filter = "quizfile(*.xml)|*.xml|all files(*.*)|*.*";
+			if(ofd.ShowDialog() == DialogResult.OK) {
+				var mql = new MyQAList();
+				mql.XmlLoad(ofd.FileName);
+				ShowQuizs = (from qa in mql.mqa
+							 select qa.q).ToList();
+				StartTraningMode();
+			}
+		}
+
+		private void 表示問題の条件を指定して開始ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+		}
+
+		private void StartTraningMode()
+		{
 			// Menu/Item Enable Change
 			問題の取得更新ToolStripMenuItem.Enabled = false;
 			問題の読み込みOToolStripMenuItem.Enabled = false;
 			練習モードを開始SToolStripMenuItem.Enabled = false;
+			表示問題の条件を指定して開始ToolStripMenuItem.Enabled = false;
+			問題帳から練習を開始BToolStripMenuItem.Enabled = false;
 			練習モードを終了EToolStripMenuItem.Enabled = true;
 			tableLayoutPanel1.Enabled = true;
-
-			// Get Quizs at random
-			ShowQuizs = (from q in QuizManage.Quizs
-						 where q.IsEnabledSelections == true
-						 orderby Guid.NewGuid()
-						 select q).ToList();
 			// and etc
+			Status_LoadQst.Text = "読み込んだ問題数: " + ShowQuizs.Count;
+			selfDrawProgressBar1.Maximum = (int)Math.Max(WQPSetting.LimitTime * 100, 2000);
 			Mqa = new MyQAList();
+			Qcount = -1;
 			// Show
 			QuizShow();
 		}
@@ -81,6 +125,8 @@ namespace WizQuizPractice
 			問題の取得更新ToolStripMenuItem.Enabled = true;
 			問題の読み込みOToolStripMenuItem.Enabled = true;
 			練習モードを開始SToolStripMenuItem.Enabled = true;
+			表示問題の条件を指定して開始ToolStripMenuItem.Enabled = true;
+			問題帳から練習を開始BToolStripMenuItem.Enabled = true;
 			練習モードを終了EToolStripMenuItem.Enabled = false;
 			tableLayoutPanel1.Enabled = false;
 
@@ -89,7 +135,7 @@ namespace WizQuizPractice
 				QuizTimer.Dispose();
 			}
 			selfDrawProgressBar1.ForeColor = Color.DodgerBlue;
-			selfDrawProgressBar1.Value = 2000;
+			selfDrawProgressBar1.Value = (int)(WQPSetting.LimitTime * 100);
 			// count reset
 			Qcount = 0;
 			// Show Result
@@ -101,8 +147,14 @@ namespace WizQuizPractice
 		{
 			// count add
 			Qcount += 1;
+			// If Over Limit
+			if(Qcount >= ShowQuizs.Count) {
+				// Quiz End
+				練習モードを終了EToolStripMenuItem_Click(null, null);
+				return;
+			}
 			// time reset
-			selfDrawProgressBar1.Value = 2000;
+			selfDrawProgressBar1.Value = (int)(WQPSetting.LimitTime * 100);
 			// enable reset
 			button1.Enabled =
 			button2.Enabled =
@@ -112,7 +164,7 @@ namespace WizQuizPractice
 			Quiz q = ShowQuizs[Qcount];
 			// Info Bar
 			label2.Text = String.Format("第 {0} 問 (現在の正答率: {1}% / Excellent: {2}問)",
-				Qcount, Mqa.GetMyAnsRate(), Mqa.GetMyExcellentNum().ToString());
+				Qcount + 1, Mqa.GetMyAnsRate(), Mqa.GetMyExcellentNum().ToString());
 			// Question
 			Question.Text
 				= String.Format("[{0} / {1}色問題]\r\n{2}", q.Genre, q.Diff, q.Question);
@@ -125,7 +177,7 @@ namespace WizQuizPractice
 			// Answer
 			QuizAnswer = q.Answer;
 			// Timer Create
-			QuizTimer = new System.Threading.Timer(Timer_Tick, null, 0, TimerInterval * 10);
+			QuizTimer = new System.Threading.Timer(Timer_Tick, null, 0, WQPSetting.TimerRefresh);
 		}
 
 		private void QuizAnswerClick(string SelAnswer)
@@ -147,7 +199,6 @@ namespace WizQuizPractice
 					return;
 				}
 			}
-			// new quiz
 			QuizShow();
 		}
 
@@ -168,10 +219,10 @@ namespace WizQuizPractice
 		private void Timer_Tick(object o)
 		{
 			// Time minus
-			int val = Math.Max(selfDrawProgressBar1.Value - TimerInterval, 0);
+			int val = Math.Max(selfDrawProgressBar1.Value - WQPSetting.TimerRefresh/10, 0);
 			selfDrawProgressBar1.Value = val;
 			// Color Change
-			if(val >= 1500) {
+			if(val >= WQPSetting.ExcellentTime*100) {
 				selfDrawProgressBar1.ForeColor = Color.DodgerBlue;
 			}
 			else if(val >= 1000) {
@@ -189,7 +240,6 @@ namespace WizQuizPractice
 			}
 			// ReDraw
 			selfDrawProgressBar1.Refresh();
-
 		}
 
 		private void button1_Click(object sender, EventArgs e)
