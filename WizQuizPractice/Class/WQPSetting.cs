@@ -10,9 +10,11 @@ namespace WizQuizPractice.Class
 	// コンパイル時設定(そのうち保存できるようにするかも)
 	static class WQPSetting
 	{
-		// 問題帳から出題する際に表示する正解数の上限
-		// (この値以上正解すると出題対象から外されます)
-		//public static int BookShow_MaxCorrCount = 3;
+		// ダウンロード機能の表示
+		public static bool QuizDownloadShow = true;
+
+		// 誤答問題の自動保存を有効にするかどうか
+		public static bool IsAutoSaveMissQuiz = false;
 
 		// 残り時間の指定(標準で20秒)
 		public static double LimitTime = 20;

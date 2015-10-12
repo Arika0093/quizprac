@@ -49,11 +49,6 @@ namespace WizQuizPractice.UI
 		// Save
 		private void button1_Click(object sender, EventArgs e)
 		{
-			// filename
-			var n = DateTime.Now;
-			var f = String.Format("{0}{1:D2}{2:D2}_{3:D2}{4:D2}.xml",
-						n.Year, n.Month, n.Day, n.Hour, n.Minute);
-			
 			// Get selected indexes
 			var CheckedQaList = new List<MyQstAns>();
 			var Indexes = (from s in listView1.Items.Cast<ListViewItem>()
@@ -69,15 +64,25 @@ namespace WizQuizPractice.UI
 					CheckedQaList.Add(SortQa[i]);
 				}
 			}
+			QuizSaveToBook(CheckedQaList);
+		}
+
+		public static void QuizSaveToBook(List<MyQstAns> qs)
+		{
+			if(qs.Count <= 0) {
+				return;
+			}
+			// filename
+			var n = DateTime.Now;
+			var f = String.Format("{0}{1:D2}{2:D2}_{3:D2}{4:D2}.xml",
+						n.Year, n.Month, n.Day, n.Hour, n.Minute);
 			// Save
 			XmlSerializer Xs = new XmlSerializer(typeof(List<MyQstAns>));
 			StreamWriter Sw = new StreamWriter("Books/" + f);
-			Xs.Serialize(Sw, CheckedQaList);
+			Xs.Serialize(Sw, qs);
 			Sw.Close();
 			// Success
-			MessageBox.Show("問題帳を作成しました。\r\nファイル名: " + f + "\r\n問題数: " + Indexes.Count().ToString());
+			MessageBox.Show("問題帳を作成しました。\r\nファイル名: " + f + "\r\n問題数: " + qs.Count().ToString());
 		}
-
-
 	}
 }

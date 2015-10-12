@@ -32,18 +32,18 @@ namespace WizQuizPractice.UI
 		// @load
 		private void QuizResult_Load(object sender, EventArgs e)
 		{
-			var Curs = from qa in Mqa.mqa
+			var Curd = from qa in Mqa.mqa
 					   where qa.IsCorrect
 					   select qa.LimitTime;
 			// Basic
 			TraningRst.Text = "今回の練習結果 (練習問題数: " + Mqa.mqa.Count + "問)";
-			AnsRate.Text = Mqa.GetMyAnsRate() + "%";
-			toolTip1.SetToolTip(AnsRate, String.Format("{1}/{0}問正解", Mqa.mqa.Count, Curs.Count()));
-			if(Curs.Count() > 0) {
-				AnsTime.Text = (WQPSetting.LimitTime - Curs.Average()).ToString("#0.00") + "s";
+			AnsRate.Text = (Mqa.GetMyAnsRate() ?? 0).ToString("#0.0") + "%";
+			toolTip1.SetToolTip(AnsRate, String.Format("{1}/{0}問正解", Mqa.mqa.Count, Curd.Count()));
+			if(Curd.Count() > 0) {
+				AnsTime.Text = (WQPSetting.LimitTime - Curd.Average()).ToString("#0.00") + "s";
 			}
 			ExcNum.Text = Mqa.GetMyExcellentNum() + "問";
-			toolTip1.SetToolTip(ExcNum, String.Format("{1}/{0}問", Mqa.GetMyExcellentNum(), Curs.Count()));
+			toolTip1.SetToolTip(ExcNum, String.Format("{0}/{1}問", Mqa.GetMyExcellentNum(), Curd.Count()));
 			// Genre,Diff
 			GenreDiffCorrRateShow(ref B1, "文系", 1);
 			GenreDiffCorrRateShow(ref B2, "文系", 2);
@@ -63,6 +63,15 @@ namespace WizQuizPractice.UI
 			GenreDiffCorrRateShow(ref A1, "アニメゲーム", 1);
 			GenreDiffCorrRateShow(ref A2, "アニメゲーム", 2);
 			GenreDiffCorrRateShow(ref A3, "アニメゲーム", 3);
+
+			// If enable autosave
+			if(WQPSetting.IsAutoSaveMissQuiz) {
+				QuizDetails.QuizSaveToBook((
+					from q in Mqa.mqa
+					where q.IsCorrect == false
+					select q
+				).ToList());
+			}
 		}
 
 		// close
@@ -76,10 +85,10 @@ namespace WizQuizPractice.UI
 			// get count
 			var Base = from qa in Mqa.mqa
 					   where qa.q.Genre.IndexOf(gen) >= 0 && qa.q.Diff == diff
-					   select Mqa;
-			var Anss = from qa in Mqa.mqa
-					   where qa.q.Genre.IndexOf(gen)>=0 && qa.q.Diff == diff && qa.IsCorrect
-					   select Mqa;
+					   select qa;
+			var Anss = from qa in Base
+					   where qa.IsCorrect
+					   select qa;
 			// calc rate
 			if(Base.Count() != 0) {
 				double Rate = (double)Anss.Count() * 100 / Base.Count();
@@ -108,7 +117,7 @@ namespace WizQuizPractice.UI
 
 		private void QuizDetailsCheck_Click(object sender, EventArgs e)
 		{
-			new QuizDetails(Mqa).ShowDialog();
+			new QuizDetails(Mqa).ShowDialog(this);
 		}
 	}
 }

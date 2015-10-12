@@ -55,14 +55,17 @@ namespace WizQuizPractice.Class
 			foreach(var Artc in Articles) {
 				// Generate Quiz
 				Quiz q = new Quiz();
+				// QuizID
+				q.QuizID = Convert.ToInt32(
+					Artc.SelectSingleNode("descendant::td[3]/p/a").Attributes["href"].Value
+						.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries).Last()
+				);
 				// Genre
 				q.Genre = Artc.SelectSingleNode("descendant::td[1]/p").InnerText.Replace(" ","");
 				// Diff
 				q.Diff = DiffStringToInt(Artc.SelectSingleNode("descendant::td[2]/p").InnerText);
 				// Question
 				q.Question = Artc.SelectSingleNode("descendant::td[3]/p/a").InnerText.Trim();
-				// Answer
-				q.Answer = Artc.SelectSingleNode("descendant::td[4]/p").InnerText.Trim();
 				// selections
 				var Selections
 					= (from s in Artc.SelectSingleNode("descendant::td[3]/p/a").Attributes["title"].Value

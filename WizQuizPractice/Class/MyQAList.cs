@@ -11,16 +11,15 @@ namespace WizQuizPractice.Class
 	public class MyQAList
 	{
 		public List<MyQstAns> mqa = new List<MyQstAns>();
-		public string GetMyAnsRate()
+		public double? GetMyAnsRate()
 		{
 			if(mqa.Count <= 0) {
-				return "--";
+				return null;
 			}
 			var Qcor = from q in mqa
 					   where q.IsCorrect == true
 					   select q;
-			int AnsRate = (int)((double)Qcor.Count() * 100 / mqa.Count);
-			return AnsRate.ToString();
+			return ((double)Qcor.Count() * 100 / mqa.Count);
 		}
 		public int GetMyExcellentNum()
 		{

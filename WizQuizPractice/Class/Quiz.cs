@@ -9,6 +9,9 @@ namespace WizQuizPractice.Class
 {
 	public class Quiz
 	{
+		// 問題のID(URLから取得)
+		[XmlElement("ID")]
+		public int QuizID;
 		// 問題文
 		[XmlElement("Qst")]
 		public string Question;
@@ -21,9 +24,15 @@ namespace WizQuizPractice.Class
 		public string Selection3;
 		[XmlElement("Sel4")]
 		public string Selection4;
-		// 解答
-		[XmlElement("Ans")]
-		public string Answer;
+		// 解答(現状Sel1に正解が入っているようなのでSel1を返却するように変更)
+		[XmlIgnore]
+		public string Answer
+		{
+			get
+			{
+				return Selection1;
+			}
+		}
 		// ジャンル
 		public string Genre;
 		// 難易度(1-3)
@@ -34,6 +43,9 @@ namespace WizQuizPractice.Class
 		// 使用予定なし
 		[XmlIgnore]
 		public int AnswerRate = -1;
+		// 問題のレート(詳細はAnswerDataを確認)
+		[XmlIgnore]
+		public AnswerData AData;
 
 		// 問題文、選択肢に指定された文字列が含まれているかを返す
 		public bool IsExist(string Search)

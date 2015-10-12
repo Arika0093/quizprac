@@ -35,8 +35,8 @@
 			this.終了XToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.検索SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.練習モードを開始SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.表示問題の条件を指定して開始ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.問題帳から練習を開始BToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.表示問題の条件を指定して開始ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.練習モードを終了EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.問題検索ダイアログを開くDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,6 +51,10 @@
 			this.Question = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
+			this.過去の出題問題から練習RToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.問題を自動的に問題帳へ保存SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.selfDrawProgressBar1 = new WizQuizPractice.UI.SelfDrawProgressBar();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
@@ -102,6 +106,7 @@
 			// 終了XToolStripMenuItem
 			// 
 			this.終了XToolStripMenuItem.Name = "終了XToolStripMenuItem";
+			this.終了XToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
 			this.終了XToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
 			this.終了XToolStripMenuItem.Text = "終了(&X)";
 			this.終了XToolStripMenuItem.Click += new System.EventHandler(this.終了XToolStripMenuItem_Click);
@@ -110,8 +115,10 @@
 			// 
 			this.検索SToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.練習モードを開始SToolStripMenuItem,
+            this.過去の出題問題から練習RToolStripMenuItem,
             this.問題帳から練習を開始BToolStripMenuItem,
             this.表示問題の条件を指定して開始ToolStripMenuItem,
+            this.toolStripSeparator4,
             this.練習モードを終了EToolStripMenuItem,
             this.toolStripSeparator3,
             this.問題検索ダイアログを開くDToolStripMenuItem});
@@ -122,51 +129,57 @@
 			// 練習モードを開始SToolStripMenuItem
 			// 
 			this.練習モードを開始SToolStripMenuItem.Name = "練習モードを開始SToolStripMenuItem";
-			this.練習モードを開始SToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.練習モードを開始SToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.練習モードを開始SToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
 			this.練習モードを開始SToolStripMenuItem.Text = "練習モードを開始(&S)";
 			this.練習モードを開始SToolStripMenuItem.Click += new System.EventHandler(this.練習モードを開始SToolStripMenuItem_Click);
-			// 
-			// 表示問題の条件を指定して開始ToolStripMenuItem
-			// 
-			this.表示問題の条件を指定して開始ToolStripMenuItem.Name = "表示問題の条件を指定して開始ToolStripMenuItem";
-			this.表示問題の条件を指定して開始ToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
-			this.表示問題の条件を指定して開始ToolStripMenuItem.Text = "条件を指定して練習開始(&C)...";
-			this.表示問題の条件を指定して開始ToolStripMenuItem.Click += new System.EventHandler(this.表示問題の条件を指定して開始ToolStripMenuItem_Click);
 			// 
 			// 問題帳から練習を開始BToolStripMenuItem
 			// 
 			this.問題帳から練習を開始BToolStripMenuItem.Name = "問題帳から練習を開始BToolStripMenuItem";
-			this.問題帳から練習を開始BToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.問題帳から練習を開始BToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
 			this.問題帳から練習を開始BToolStripMenuItem.Text = "問題帳から練習を開始(&B)...";
 			this.問題帳から練習を開始BToolStripMenuItem.Click += new System.EventHandler(this.問題帳から練習を開始BToolStripMenuItem_Click);
+			// 
+			// 表示問題の条件を指定して開始ToolStripMenuItem
+			// 
+			this.表示問題の条件を指定して開始ToolStripMenuItem.Name = "表示問題の条件を指定して開始ToolStripMenuItem";
+			this.表示問題の条件を指定して開始ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+			this.表示問題の条件を指定して開始ToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
+			this.表示問題の条件を指定して開始ToolStripMenuItem.Text = "条件を指定して練習開始(&C)...";
+			this.表示問題の条件を指定して開始ToolStripMenuItem.Click += new System.EventHandler(this.表示問題の条件を指定して開始ToolStripMenuItem_Click);
 			// 
 			// 練習モードを終了EToolStripMenuItem
 			// 
 			this.練習モードを終了EToolStripMenuItem.Enabled = false;
 			this.練習モードを終了EToolStripMenuItem.Name = "練習モードを終了EToolStripMenuItem";
-			this.練習モードを終了EToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.練習モードを終了EToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+			this.練習モードを終了EToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
 			this.練習モードを終了EToolStripMenuItem.Text = "練習モードを終了(&E)";
 			this.練習モードを終了EToolStripMenuItem.Click += new System.EventHandler(this.練習モードを終了EToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(248, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(296, 6);
 			// 
 			// 問題検索ダイアログを開くDToolStripMenuItem
 			// 
 			this.問題検索ダイアログを開くDToolStripMenuItem.Name = "問題検索ダイアログを開くDToolStripMenuItem";
-			this.問題検索ダイアログを開くDToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.問題検索ダイアログを開くDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+			this.問題検索ダイアログを開くDToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
 			this.問題検索ダイアログを開くDToolStripMenuItem.Text = "問題検索ダイアログを開く(&D)...";
 			this.問題検索ダイアログを開くDToolStripMenuItem.Click += new System.EventHandler(this.問題検索ダイアログを開くDToolStripMenuItem_Click);
 			// 
 			// ヘルプHToolStripMenuItem
 			// 
 			this.ヘルプHToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.問題を自動的に問題帳へ保存SToolStripMenuItem,
+            this.toolStripSeparator2,
             this.このアプリについてAToolStripMenuItem});
 			this.ヘルプHToolStripMenuItem.Name = "ヘルプHToolStripMenuItem";
-			this.ヘルプHToolStripMenuItem.Size = new System.Drawing.Size(75, 22);
-			this.ヘルプHToolStripMenuItem.Text = "ヘルプ(&H)";
+			this.ヘルプHToolStripMenuItem.Size = new System.Drawing.Size(62, 22);
+			this.ヘルプHToolStripMenuItem.Text = "設定(&S)";
 			// 
 			// このアプリについてAToolStripMenuItem
 			// 
@@ -188,8 +201,10 @@
 			// Status_LoadQst
 			// 
 			this.Status_LoadQst.Name = "Status_LoadQst";
-			this.Status_LoadQst.Size = new System.Drawing.Size(148, 18);
+			this.Status_LoadQst.Size = new System.Drawing.Size(373, 18);
+			this.Status_LoadQst.Spring = true;
 			this.Status_LoadQst.Text = "読み込んだ問題数: xxxxx";
+			this.Status_LoadQst.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -284,6 +299,30 @@
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
+			// 過去の出題問題から練習RToolStripMenuItem
+			// 
+			this.過去の出題問題から練習RToolStripMenuItem.Name = "過去の出題問題から練習RToolStripMenuItem";
+			this.過去の出題問題から練習RToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
+			this.過去の出題問題から練習RToolStripMenuItem.Text = "過去の出題問題から練習(&R)";
+			this.過去の出題問題から練習RToolStripMenuItem.Click += new System.EventHandler(this.過去の出題問題から練習RToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(211, 6);
+			// 
+			// 問題を自動的に問題帳へ保存SToolStripMenuItem
+			// 
+			this.問題を自動的に問題帳へ保存SToolStripMenuItem.Name = "問題を自動的に問題帳へ保存SToolStripMenuItem";
+			this.問題を自動的に問題帳へ保存SToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+			this.問題を自動的に問題帳へ保存SToolStripMenuItem.Text = "誤答問題を自動保存(&S)";
+			this.問題を自動的に問題帳へ保存SToolStripMenuItem.Click += new System.EventHandler(this.問題を自動的に問題帳へ保存SToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(296, 6);
+			// 
 			// selfDrawProgressBar1
 			// 
 			this.selfDrawProgressBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -352,6 +391,10 @@
 		private UI.SelfDrawProgressBar selfDrawProgressBar1;
 		private System.Windows.Forms.ToolStripMenuItem 問題帳から練習を開始BToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 表示問題の条件を指定して開始ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 過去の出題問題から練習RToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 問題を自動的に問題帳へ保存SToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 	}
 }
 

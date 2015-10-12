@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,6 +27,8 @@ namespace WizQuizPractice
 		private string QuizAnswer;
 		// クイズの残り時間を管理
 		private System.Threading.Timer QuizTimer;
+		// 練習モード続行条件
+		private Func<MyQAList, bool> Dt = p => true;
 		// -------------------------------
 
 		public Main()
@@ -39,7 +40,8 @@ namespace WizQuizPractice
 		{
 			// Error Ignore
 			SelfDrawProgressBar.CheckForIllegalCrossThreadCalls = false;
-
+			// Menu
+			問題の取得更新ToolStripMenuItem.Visible = WQPSetting.QuizDownloadShow;
 			// Statusbar
 			Status_LoadQst.Text = "読み込んだ問題数: " + QuizManage.Quizs.Count.ToString();
 			// Mainpanel
@@ -49,7 +51,7 @@ namespace WizQuizPractice
 		private void 問題の取得更新ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var DlForm = new QuizDownload();
-			DlForm.ShowDialog();
+			DlForm.ShowDialog(this);
 			// Reload
 			Main_Load(null, null);
 		}
@@ -59,7 +61,7 @@ namespace WizQuizPractice
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.FileName = Path.GetFileName(QuizManage.Quizfilepath);
 			ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			ofd.Filter = "quizfile(*.xml)|*.xml|all files(*.*)|*.*";
+			ofd.Filter = "Quizfile|Quizzes.xml|all files(*.*)|*.*";
 			if(ofd.ShowDialog() == DialogResult.OK) {
 				QuizManage.Quizfilepath = ofd.FileName;
 				QuizManage.Load();
@@ -80,6 +82,17 @@ namespace WizQuizPractice
 			StartTraningMode();
 		}
 
+		private void 過去の出題問題から練習RToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// Load
+			QuizManage.LoadAnswerData();
+			ShowQuizs = (from q in QuizManage.Quizs
+						 where q.AData != null && q.AData.QstNumber > 0
+						 orderby Guid.NewGuid()
+						 select q).ToList();
+			StartTraningMode();
+		}
+
 		private void 問題帳から練習を開始BToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			// Open QuizFile
@@ -87,16 +100,26 @@ namespace WizQuizPractice
 			ofd.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Books\\";
 			ofd.Filter = "quizfile(*.xml)|*.xml|all files(*.*)|*.*";
 			if(ofd.ShowDialog() == DialogResult.OK) {
+				// Load
 				var mql = new MyQAList();
 				mql.XmlLoad(ofd.FileName);
-				ShowQuizs = (from qa in mql.mqa
-							 select qa.q).ToList();
+				ShowQuizs = (from qa in QuizManage.Quizs
+							 where mql.mqa.Exists(p => p.q.QuizID == qa.QuizID)
+							 select qa).ToList();
+				QuizManage.LoadAnswerData();
 				StartTraningMode();
 			}
 		}
 
 		private void 表示問題の条件を指定して開始ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			// Get
+			var qt = new QuizTerm();
+			ShowQuizs = qt.QuizExtractWithTerm(this);
+			if(ShowQuizs != null) {
+				Dt = qt.Deadterm;
+				StartTraningMode();
+			}
 		}
 
 		private void StartTraningMode()
@@ -105,6 +128,7 @@ namespace WizQuizPractice
 			問題の取得更新ToolStripMenuItem.Enabled = false;
 			問題の読み込みOToolStripMenuItem.Enabled = false;
 			練習モードを開始SToolStripMenuItem.Enabled = false;
+			過去の出題問題から練習RToolStripMenuItem.Enabled = false;
 			表示問題の条件を指定して開始ToolStripMenuItem.Enabled = false;
 			問題帳から練習を開始BToolStripMenuItem.Enabled = false;
 			練習モードを終了EToolStripMenuItem.Enabled = true;
@@ -125,6 +149,7 @@ namespace WizQuizPractice
 			問題の取得更新ToolStripMenuItem.Enabled = true;
 			問題の読み込みOToolStripMenuItem.Enabled = true;
 			練習モードを開始SToolStripMenuItem.Enabled = true;
+			過去の出題問題から練習RToolStripMenuItem.Enabled = true;
 			表示問題の条件を指定して開始ToolStripMenuItem.Enabled = true;
 			問題帳から練習を開始BToolStripMenuItem.Enabled = true;
 			練習モードを終了EToolStripMenuItem.Enabled = false;
@@ -139,7 +164,9 @@ namespace WizQuizPractice
 			// count reset
 			Qcount = 0;
 			// Show Result
-			new QuizResult(Mqa).ShowDialog();
+			new QuizResult(Mqa).ShowDialog(this);
+			// Save
+			QuizManage.SaveAnswerData();
 		}
 
 		// Quiz Show
@@ -164,10 +191,18 @@ namespace WizQuizPractice
 			Quiz q = ShowQuizs[Qcount];
 			// Info Bar
 			label2.Text = String.Format("第 {0} 問 (現在の正答率: {1}% / Excellent: {2}問)",
-				Qcount + 1, Mqa.GetMyAnsRate(), Mqa.GetMyExcellentNum().ToString());
+				Qcount + 1, (Mqa.GetMyAnsRate() ?? 0).ToString("##0.0"), Mqa.GetMyExcellentNum().ToString());
 			// Question
-			Question.Text
-				= String.Format("[{0} / {1}色問題]\r\n{2}", q.Genre, q.Diff, q.Question);
+			if(q.AData != null && q.AData.QstNumber > 0) {
+				Question.Text
+					= String.Format("[{0} / {1}色問題] [正解回数: {3}/{4}回]\r\n{2}",
+						q.Genre, q.Diff, q.Question, q.AData.AnsNumber, q.AData.QstNumber);
+			}
+			else {
+				Question.Text
+					= String.Format("[{0} / {1}色問題]\r\n{2}", q.Genre, q.Diff, q.Question);
+			}
+
 			// Selections
 			var Sels = q.GetChoicesStringsRandom();
 			button1.Text = Sels[0];
@@ -184,12 +219,20 @@ namespace WizQuizPractice
 		{
 			if(QuizTimer != null) {
 				QuizTimer.Dispose();
-				// answer data
+				// myQA
 				MyQstAns mq = new MyQstAns();
-				mq.q = ShowQuizs[Qcount];
+				Quiz q = ShowQuizs[Qcount];
+				mq.q = q;
 				mq.SelAns = SelAnswer;
 				mq.IsCorrect = (SelAnswer == QuizAnswer);
 				mq.LimitTime = (double)selfDrawProgressBar1.Value / 100;
+				// answer data
+				if(q.AData == null) {
+					q.AData = new AnswerData();
+				}
+				q.AData.QstNumber += 1;
+				q.AData.AnsNumber += (uint)(mq.IsCorrect ? 1 : 0);
+				q.AData.RateChange(mq.IsCorrect);
 				// add
 				Mqa.DataAdd(mq);
 				// if miss quiz
@@ -198,6 +241,12 @@ namespace WizQuizPractice
 					QuizMiss();
 					return;
 				}
+			}
+			// Deadterm check
+			if(!Dt(Mqa)) {
+				// end
+				練習モードを終了EToolStripMenuItem_Click(null, null);
+				return;
 			}
 			QuizShow();
 		}
@@ -269,12 +318,19 @@ namespace WizQuizPractice
 
 		private void このアプリについてAToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new About().ShowDialog();
+			new About().ShowDialog(this);
 		}
 
 		private void 問題検索ダイアログを開くDToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new QuizSearch().Show();
+			new QuizSearch().Show(this);
+		}
+
+		private void 問題を自動的に問題帳へ保存SToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var chkd = !問題を自動的に問題帳へ保存SToolStripMenuItem.Checked;
+			問題を自動的に問題帳へ保存SToolStripMenuItem.Checked = chkd;
+			WQPSetting.IsAutoSaveMissQuiz = chkd;
 		}
 	}
 }
