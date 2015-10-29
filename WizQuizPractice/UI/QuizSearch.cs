@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -25,8 +26,9 @@ namespace WizQuizPractice.UI
 		private void SearchBtn_Click(object sender, EventArgs e)
 		{
 			// Search
+			var Spls = SearchBox.Text.Split(new char[] { ' ', }, StringSplitOptions.RemoveEmptyEntries);
 			var Srcs = from q in QuizManage.Quizs
-					   where SearchCheck(q, SearchBox.Text,
+					   where SearchCheck(q, Spls,
 							 (GenreCombo.SelectedIndex > 0 ? GenreCombo.Text : ""),
 							 DiffCombo.SelectedIndex)
 					   orderby q.Diff descending, q.Genre descending
@@ -56,9 +58,13 @@ namespace WizQuizPractice.UI
 		}
 
 		// QuizSearch Function
-		private bool SearchCheck(Quiz q, string src, string gen, int diff)
+		private bool SearchCheck(Quiz q, string[] srcs, string gen, int diff)
 		{
-			return q.IsExist(src)
+			bool isExist = true;
+			foreach(var src in srcs) {
+				isExist = isExist && q.IsExist(src);
+			}
+			return isExist
 				&& (diff != 0 ? diff == q.Diff : true)
 				&& (gen == "" || q.Genre.IndexOf(gen) >= 0);
 		}

@@ -45,7 +45,7 @@
 			this.tableLayoutPanel1.ColumnCount = 3;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
 			this.tableLayoutPanel1.Controls.Add(this.DiffCombo, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.SearchBox, 0, 1);
 			this.tableLayoutPanel1.Controls.Add(this.SearchBtn, 2, 0);
@@ -82,6 +82,7 @@
 			// 
 			this.SearchBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tableLayoutPanel1.SetColumnSpan(this.SearchBox, 2);
+			this.SearchBox.ImeMode = System.Windows.Forms.ImeMode.On;
 			this.SearchBox.Location = new System.Drawing.Point(3, 34);
 			this.SearchBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.SearchBox.Name = "SearchBox";
