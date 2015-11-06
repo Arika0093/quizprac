@@ -29,6 +29,8 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.comboBox2 = new System.Windows.Forms.ComboBox();
+			this.label9 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.checkBox14 = new System.Windows.Forms.CheckBox();
 			this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
@@ -59,8 +61,6 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.label9 = new System.Windows.Forms.Label();
-			this.comboBox2 = new System.Windows.Forms.ComboBox();
 			this.tableLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -126,6 +126,28 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(426, 330);
 			this.tableLayoutPanel1.TabIndex = 0;
+			// 
+			// comboBox2
+			// 
+			this.tableLayoutPanel1.SetColumnSpan(this.comboBox2, 3);
+			this.comboBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox2.FormattingEnabled = true;
+			this.comboBox2.Location = new System.Drawing.Point(118, 258);
+			this.comboBox2.Name = "comboBox2";
+			this.comboBox2.Size = new System.Drawing.Size(305, 26);
+			this.comboBox2.TabIndex = 30;
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.label9.Location = new System.Drawing.Point(3, 255);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(109, 32);
+			this.label9.TabIndex = 29;
+			this.label9.Text = "制約条件:";
+			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
@@ -531,28 +553,6 @@
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(305, 26);
 			this.comboBox1.TabIndex = 28;
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label9.Location = new System.Drawing.Point(3, 255);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(109, 32);
-			this.label9.TabIndex = 29;
-			this.label9.Text = "制約条件:";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// comboBox2
-			// 
-			this.tableLayoutPanel1.SetColumnSpan(this.comboBox2, 3);
-			this.comboBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBox2.FormattingEnabled = true;
-			this.comboBox2.Location = new System.Drawing.Point(118, 258);
-			this.comboBox2.Name = "comboBox2";
-			this.comboBox2.Size = new System.Drawing.Size(305, 26);
-			this.comboBox2.TabIndex = 30;
 			// 
 			// QuizTerm
 			// 

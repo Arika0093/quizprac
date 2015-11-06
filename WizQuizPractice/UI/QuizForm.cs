@@ -332,5 +332,10 @@ namespace WizQuizPractice
 			問題を自動的に問題帳へ保存SToolStripMenuItem.Checked = chkd;
 			WQPSetting.IsAutoSaveMissQuiz = chkd;
 		}
+
+		private void ダメージ計算機ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			new DamageCalc().Show(this);
+		}
 	}
 }
