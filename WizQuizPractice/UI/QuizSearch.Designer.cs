@@ -153,7 +153,7 @@
             "雑学",
             "芸能",
             "スポーツ",
-            "アニメ ゲーム"});
+            "アニメゲーム"});
 			this.GenreCombo.Location = new System.Drawing.Point(3, 3);
 			this.GenreCombo.Name = "GenreCombo";
 			this.GenreCombo.Size = new System.Drawing.Size(216, 26);
